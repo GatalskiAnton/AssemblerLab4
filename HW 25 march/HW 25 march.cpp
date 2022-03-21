@@ -1,15 +1,37 @@
 ﻿#include <iostream>
-
-//int noduplicate(int* arr)
-//{
-//	int i = 1, count = 1;
-//	while (arr[i])
-//	{
-//		++i;
-//		++count;
-//	}
-//	return count;
-//}
+void noduplicate(int* &arr)
+{
+	int u_count = 0;
+	for (int i = 0; i < _msize(arr) / sizeof(int); ++i)
+	{
+		bool flag = false;
+		for (int j = i + 1; j < _msize(arr) / sizeof(int); ++j)
+		{
+			if (arr[i] == arr[j])
+				flag = true;
+		}
+		if (!flag)
+			u_count++;
+	}
+	int* res_arr = new int[u_count+1];
+	res_arr[0] = u_count;//first element is number of unique elements
+	int current = 1;
+	for (int i = 0; i < _msize(arr) / sizeof(int); ++i)
+	{
+		bool flag = false;
+		for (int j = 1; j < current; ++j)
+		{
+			if (res_arr[j] == arr[i])
+				flag = true;
+		}
+		if (!flag)
+		{
+			res_arr[current] = arr[i];
+			++current;
+		}
+	}
+	arr = res_arr;
+}
 
 
 int* mixArr(int* arr1 , int* arr2)
@@ -33,9 +55,7 @@ int* mixArr(int* arr1 , int* arr2)
 		for (int j = 0; j < size1+size2 - i - 1; j++) 
 		{
 			if (res_arr[j] > res_arr[j + 1])
-			{
 				std::swap(res_arr[j], res_arr[j + 1]);
-			}
 		}
 	}
 	return res_arr;
@@ -54,28 +74,6 @@ int stringCmp( char str1[], char str2[])
 			return 1;
 		++i;
 	}
-	//char str[] = { 'a', 'b' };
-	//int length_ = std::max(std::strlen(str1), std::strlen(str2)),result = 0;
-	//_asm
-	//{
-	//	movsx eax, byte ptr[str1]
-
-	//	mov ecx, 0		//int i = 0;
-
-	//	beg: 	//while (i < std::max(std::strlen(str1), std::strlen(str2)))
-	//		cmp ecx, length_
-	//		jge end
-
-	//			/*mov eax,[str1]
-	//			mov ebx,[str2]*/
-	//			
-	//			inc str1
-	//			inc str2
-	//		inc ecx
-	//		jmp beg
-	//	end:
-
-	//}
 	return 0;
 }
 
@@ -114,15 +112,28 @@ int diagSum(int a[3][3])
 
 int main()
 {
-	int* arr1 = new int[5] { 3,2,5,4,1};
-	int* arr2 = new int[5]{ 8,9,8,7,10 };
-	int* arr3 = mixArr(arr1,arr2);
-	int a[3][3] = 
+	
+	int a[3][3] =
 	{
 		{1,2,3},
 		{4,5,6},
 		{7,8,9}
 	};
-	std::cout << diagSum(a) << '\n';
+	int current = 0;
+	int sum = 0;
+	//i*4*кол-во j + j*4
+	_asm
+	{
+		mov ecx, 0//int i = 0;
+		beg:
+			cmp ecx, 3
+			jge end
+				mov ebx, a[ecx*4]
+				add sum, ebx
+				inc ecx
+			jmp beg
+		end:
+	}
+	std::cout << sum << '\n';
 }
 
