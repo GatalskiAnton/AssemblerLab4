@@ -1,4 +1,7 @@
 ﻿#include <iostream>
+
+//tasks 1-3 in HW 17.03.2022
+
 void noduplicate(int* &arr)
 {
 	int u_count = 0;
@@ -61,11 +64,11 @@ int* mixArr(int* arr1 , int* arr2)
 	return res_arr;
 }
 
-int stringCmp( char str1[], char str2[])
+int stringCmp(const char* str1,const char* str2)
 {
 	/* Сравнить две строки языка Си.*/
 
-	int i = 0;
+	/*int i = 0;
 	while (i < std::max(std::strlen(str1), std::strlen(str2)))
 	{
 		if (str1[i] < str2[i])
@@ -73,67 +76,123 @@ int stringCmp( char str1[], char str2[])
 		if (str1[i] > str2[i])
 			return 1;
 		++i;
+	}*/
+	int bord = std::max(std::strlen(str1), std::strlen(str2));
+	int flag = 0;
+	_asm {
+
+	mov ecx, 0		//int i = 0;
+
+	beg:
+			cmp ecx, bord
+			jge end
+			mov eax, str1[ecx]
+			cmp eax, str2[ecx]
+			jge jge1
+				mov flag, -1
+				jmp end
+			jge1:
+			cmp eax, str2[ecx]
+				jle jle1
+				mov flag, 1
+				jmp end
+				jle1 :
+			inc ecx
+			jmp end
+	end:
 	}
-	return 0;
+	return flag;
 }
 
-int diagSum(int a[3][3])
+void diagSum_s()
 {
 	/*Вычислить сумму диагональных элементов статической
 	квадратной матрицы.*/
 
-	int sum = 0, i = 0;
-
-	/*while (i < 3)
+	/*while (i < n)
 	{
-		sum += a[i][i];
+		sum += matrix[i][i];
 		++i;
 	}*/
-	_asm
-	{
-		//mov ecx,0		//int i = 0;
-
-		//beg:		//while (i < 3)
-		//	cmp ecx, 3
-		//	jge end
-		//	inc ecx
-		//
-
-		//	mov eax, a[12*ecx + ecx*4]
-		//	add sum, ebx
-		//	jmp beg
-		//end:
-		mov eax, a[0]
-		mov sum, eax
-	}
-	return sum;
-}
-
-
-int main()
-{
-	
-	int a[3][3] =
+	const int n = 3;
+	int matrix[n][n] =
 	{
 		{1,2,3},
 		{4,5,6},
 		{7,8,9}
 	};
-	int current = 0;
 	int sum = 0;
-	//i*4*кол-во j + j*4
 	_asm
 	{
-		mov ecx, 0//int i = 0;
-		beg:
-			cmp ecx, 3
+		mov ecx, 0	//int i = 0;
+
+		beg:		//while (i < n)
+		cmp ecx, n
 			jge end
-				mov ebx, a[ecx*4]
-				add sum, ebx
-				inc ecx
+				mov eax, ecx
+				imul eax, 4
+				mov edx, eax
+				imul eax, n
+				add eax, edx
+				mov ebx, matrix[eax]
+				add sum, ebx		//sum+= a[i][i]	
+			inc ecx
 			jmp beg
-		end:
+		end :
 	}
 	std::cout << sum << '\n';
 }
 
+void diagSum_d()
+{
+	/*Вычислить сумму диагональных элементов динамической
+	квадратной матрицы*/
+
+	const int n = 3;
+	int** matrix = new int*[n];
+	for (int i = 0; i < n; i++)
+	{
+		matrix[i] = new int[n];
+	}
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			matrix[i][j] = i + j ;
+			std::cout << matrix[i][j] << " ";
+		}
+		std::cout << '\n';
+	}
+
+	/*while (i < n)
+	{
+		sum += matrix[i][i];
+		++i;
+	}*/
+
+	int sum = 0;	
+	_asm
+	{
+		mov ecx, 0		//int i = 0
+		mov edx, matrix
+
+		beg:
+			cmp ecx, n//while(i < n)
+				jge end
+
+				mov eax, [edx][ecx*4]
+				mov ebx, [eax][ecx*4]
+				add sum, ebx//sum+= a[i][i]
+
+				inc ecx
+				jmp beg
+		end:
+
+	}
+	std::cout << sum << '\n';
+}
+
+int main()
+{
+	
+}

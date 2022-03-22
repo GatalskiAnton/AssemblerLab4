@@ -1,6 +1,6 @@
 ﻿  HW 25 march.cpp
-C:\Users\ag629\source\repos\AssemblerLab4\HW 25 march\HW 25 march.cpp(5,20): warning C4018: <: несоответствие типов со знаком и без знака
-C:\Users\ag629\source\repos\AssemblerLab4\HW 25 march\HW 25 march.cpp(8,25): warning C4018: <: несоответствие типов со знаком и без знака
-C:\Users\ag629\source\repos\AssemblerLab4\HW 25 march\HW 25 march.cpp(19,20): warning C4018: <: несоответствие типов со знаком и без знака
-C:\Users\ag629\source\repos\AssemblerLab4\HW 25 march\HW 25 march.cpp(69,11): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\ag629\source\repos\AssemblerLab4\HW 25 march\HW 25 march.cpp(8,20): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\ag629\source\repos\AssemblerLab4\HW 25 march\HW 25 march.cpp(11,25): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\ag629\source\repos\AssemblerLab4\HW 25 march\HW 25 march.cpp(22,20): warning C4018: <: несоответствие типов со знаком и без знака
+C:\Users\ag629\source\repos\AssemblerLab4\HW 25 march\HW 25 march.cpp(86,2): warning C4102: beg: неиспользованная метка
   HW 25 march.vcxproj -> C:\Users\ag629\source\repos\AssemblerLab4\Debug\HW 25 march.exe

@@ -141,6 +141,9 @@
   <ItemGroup>
     <ClCompile Include="HW 25 march.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="HW 25 march.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
