@@ -69,7 +69,7 @@ int stringCmp(const char* str1,const char* str2)
 	/* Сравнить две строки языка Си.*/
 
 	/*int i = 0;
-	while (i < std::max(std::strlen(str1), std::strlen(str2)))
+	while (i < std::min(std::strlen(str1), std::strlen(str2)))
 	{
 		if (str1[i] < str2[i])
 			return -1;
@@ -77,31 +77,38 @@ int stringCmp(const char* str1,const char* str2)
 			return 1;
 		++i;
 	}*/
-	int bord = std::max(std::strlen(str1), std::strlen(str2));
-	int flag = 0;
-	_asm {
+	int length_ = std::min(std::strlen(str1), std::strlen(str2)),result = 0;
+	_asm
+	{
+		mov ecx, 0		//int i = 0;
+		mov eax, str1
+		mov ebx, str2
 
-	mov ecx, 0		//int i = 0;
-
-	beg:
-			cmp ecx, bord
+		beg:		//while (i < std::min(std::strlen(str1), std::strlen(str2)))
+			cmp ecx, length_
 			jge end
-			mov eax, str1[ecx]
-			cmp eax, str2[ecx]
-			jge jge1
-				mov flag, -1
-				jmp end
-			jge1:
-			cmp eax, str2[ecx]
-				jle jle1
-				mov flag, 1
-				jmp end
-				jle1 :
+
+				mov edi, [eax][ecx*4]
+				mov esi, [ebx][ecx*4]
+
+				cmp edi, esi
+				jge jge1		//if (str1[i] < str2[i])
+					mov result,-1
+					jmp end
+				jge1:
+
+				cmp edi,esi
+				jle jle1		//if (str1[i] > str2[i])
+					mov result, 1
+					jmp end
+				jle1:
+
 			inc ecx
-			jmp end
-	end:
+			jmp beg
+		end:
+	
 	}
-	return flag;
+	return result;
 }
 
 void diagSum_s()
@@ -158,7 +165,7 @@ void diagSum_d()
 	{
 		for (int j = 0; j < n; j++)
 		{
-			matrix[i][j] = i + j ;
+			matrix[i][j] = i + j + 1;
 			std::cout << matrix[i][j] << " ";
 		}
 		std::cout << '\n';
@@ -177,12 +184,12 @@ void diagSum_d()
 		mov edx, matrix
 
 		beg:
-			cmp ecx, n//while(i < n)
+			cmp ecx, n		//while(i < n)
 				jge end
 
 				mov eax, [edx][ecx*4]
 				mov ebx, [eax][ecx*4]
-				add sum, ebx//sum+= a[i][i]
+				add sum, ebx		//sum+= a[i][i]
 
 				inc ecx
 				jmp beg
@@ -194,5 +201,4 @@ void diagSum_d()
 
 int main()
 {
-
 }
