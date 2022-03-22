@@ -194,5 +194,5 @@ void diagSum_d()
 
 int main()
 {
-	
+
 }
